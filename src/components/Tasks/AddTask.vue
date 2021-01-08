@@ -2,7 +2,11 @@
 <div class="row">
     <Nav />
  <div class="add container">
-
+    <div class="mb-30">
+            <td><router-link
+            v-if="user.user.type == 'admin'"
+             class="btn btn-default mb-30" v-bind:to="'/tasks'">Back</router-link></td>
+    </div>
     <Alert v-if="alert" v-bind:message="alert" />
     <h1 class="page-header">Add Task</h1>
     <form v-on:submit="addTask">
@@ -46,35 +50,31 @@
     data () {
         return {
         task: {},
-        alert:''
+        alert:'',
+      user:this.$cookies.get('user').user,
+
         }
     },
     methods: {
         addTask(e){
-                // let newTask = {
-                //     title: this.task.title,
-                //     description: this.task.description,
-                //     department: this.task.department,
-                //     deadline: this.task.deadline,
-                //     budget: this.task.budget,
-                // }
-
-                 let newTask = {
-                    title: 'title',
-                    description:' description',
-                    department: 'department',
-                    deadline: 'deadline',
-                    budget: 'budget',
+                let newTask = {
+                    title: this.task.title,
+                    description: this.task.description,
+                    department: this.task.department,
+                    deadline: this.task.deadline,
+                    budget: this.task.budget,
                 }
+
                 let  headers= {
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    // "Content-type": "application/json",
+                    // "accept": "application/json",
                     'Authorization' : 'Bearer '+this.$cookies.get('user').access_token ,
                     }
                
-        this.$http.post('https://bounty-board.herokuapp.com/api/tasks',{newTask,headers})
+        this.$http.post('https://bounty-board.herokuapp.com/api/tasks',newTask, {headers})
             .then(function (response){
                 console.log('Success  '+response)
-               this.$router.push({path: '/tasks', query: {alert: 'Customer Added'}});
+               this.$router.push({path: '/tasks', query: {alert: 'Task Added'}});
                  })
             .catch(function (error) {
                  console.log('err   '+error.body.errors[0].details);

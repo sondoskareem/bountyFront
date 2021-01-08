@@ -1,40 +1,39 @@
 <template>
+   <div class="row" v-if="shouldRender" >
+    <Nav />
  <div class="customers container">
+
     <Alert v-if="alert" v-bind:message="alert" />
     <h1 class="page-header">Manage Requests</h1>
-    <!-- <input class="form-control" placeholder="Enter Last Name" v-model="filterInput"> -->
     <br />
-    <div class="mb-30">
-            <td><router-link class="btn btn-success mb-30" v-bind:to="'/addTask'+1">Add New Employee</router-link></td>
-    </div>
+   
     <table class="table table-striped">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Employee Name</th>
-            <th>Task title</th>
-            <th>Edite</th>
+            <th>Employee name</th>
+            <th>Employee Department</th>
+            <th>Task Title</th>
+            <th>Task Description</th>
+            <th>Task Budget</th>
+            <th>Taken</th>
+            <th>Approve</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <td>w </td>
-            <td>w</td>
-            <td>w</td>
-            <td>w</td>
-            <td>w</td>
-            <td><router-link class="btn btn-default" v-bind:to="'/tasks/'+1">View</router-link></td>
+          <tr v-for="(request , index) in requests" :key=index>
+            <td>{{request.employee.user.name}} </td>
+            <td>{{request.employee.department}}</td>
+            <td>{{request.task.title}}</td>
+            <td>{{request.task.description}}</td>
+            <td>{{request.task.budget}}</td>
+            <td>{{request.approved}}</td>
 
-          <tr v-for="(task , index) in tasks" :key=index>
-            <td>{{task.id}} </td>
-            <td>{{task.name}}</td>
-            <td>{{task.email}}</td>
-            <td>{{task.phone}}</td>
-            <td>{{task.Department}}</td>
-            <td><router-link class="btn btn-default" v-bind:to="'/tasks/'+task.id">Edit</router-link></td>
+            <td><button class="btn btn-success" v-on:click="requestApproved(request.id)">Approve</button></td>
           </tr>
         </tbody>
     </table>
+  </div>
   </div>
  
 </template>
@@ -44,37 +43,61 @@
     import Alert from '../Alert'
     import Nav from '../Nav'
     export default {
-    name: 'add',
+    name: 'requests',
     data () {
         return {
-        customer: {},
-        alert:''
+        requests: [],
+        alert:'',
+        shouldRender:true
+        
         }
     },
     methods: {
-        addCustomer(e){
-         let options = {
-              method: 'Get',
-              headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                'Authorization' : 'Bearer '+this.$cookies.get('user').access_token,
-                'Access-Control-Allow-Origin': '*'
-              },
-            }
-         
-            console.log(options)
-
-            fetch('https://bounty-board.herokuapp.com/api/employees'  ,options )
+         getRequests(){
+           
+          this.$http.get('https://bounty-board.herokuapp.com/api/requestTasks?filter=[ ["approved","=","false"]]' ,
+          {
+             headers: {
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            // "accept": "application/x-www-form-urlencoded; charset=UTF-8",
+             'Authorization' : 'Bearer '+this.$cookies.get('user').access_token ,
+            },
+          })
             .then(function (response){
-              // console.log(response.body)
-                this.tasks = (response.body)
+              console.log(response.body.items)
+                this.requests = (response.body.items)
                  })
             .catch(function (error) {
-                 console.log(error);
-                 this.alert = error.body.errors[0].title;
+                 console.log(error.body.errors[0].details);
+                 this.alert ( error.body.errors[0].details);
                })
-            e.preventDefault();
-        }
+        },
+        requestApproved(id){
+
+           let  headers= {'Authorization' : 'Bearer '+this.$cookies.get('user').access_token  }
+          let data = {approved: 1}
+
+           this.$http.post('https://bounty-board.herokuapp.com/api/requestTasks/'+id,data, {headers})
+            .then(function (response){
+                console.log('Success  '+response)
+               this.$router.push({path: '/tasks'});
+                 })
+            .catch(function (error) {
+                 console.log('err   '+error.body.errors[0].details);
+                 this.alert = error.body.errors[0].details;
+               })
+
+              // window.location.reload(true) not working so we 
+        },
+          
+        
+    },
+     created:function() {
+       if(this.$cookies.get('user').user.user.type == 'admin') this.$shouldRender=true
+        else this.$shouldRender=false
+      console.log(this.$cookies.get('user').user.type)
+            this.getRequests()
+        
     },
     components: {
         Alert,

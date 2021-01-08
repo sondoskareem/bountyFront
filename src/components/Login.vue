@@ -11,7 +11,7 @@
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="text" class="form-control" placeholder="Password" v-model="user.password" >
+                <input type="password" class="form-control" placeholder="Password" v-model="user.password" >
             </div>
         </div>  
       
@@ -41,15 +41,13 @@
 
                 this.$http.post('https://bounty-board.herokuapp.com/api/login', loginInfo)
                     .then(function(response){
-                      // console.log(response.body.access_token)
                      this.$cookies.set('user',response.body);
-
-
+                     console.log(response.body);
                         this.$router.push({path: '/tasks', query: {alert: 'Login Successfully '}});
                     })
                     .catch(function (error) {
-                        // console.log(error.body);
-                      // this.alert = error.body.error;
+                        console.log(error.body);
+                      this.alert = error.body.error;
                       })
 
                 e.preventDefault();

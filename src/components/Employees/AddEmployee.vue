@@ -9,23 +9,29 @@
         <div class="well">
             <h4>Info</h4>
             <div class="form-group">
-                <label>Title</label>
+            <div class="form-group">
+                <label>name</label>
+                <input type="text" class="form-control" placeholder="Name" v-model="emp.name">
+            </div>
+                <label>email</label>
                 <input type="text" class="form-control" placeholder="Email" v-model="emp.email">
             </div>
             <div class="form-group">
-                <label>Body</label>
-                <input type="text" class="form-control" placeholder="Phone" v-model="emp.phone">
+                <label>phone</label>
+                <input type="number" class="form-control" placeholder="Phone" v-model="emp.phone">
             </div>
 
             <div class="form-group">
-                <label>Body</label>
-                <input type="text" class="form-control" placeholder="Password" v-model="emp.password">
+                <label>password</label>
+                <input type="password" class="form-control" placeholder="Password" v-model="emp.password">
             </div>
 
             <div class="form-group">
-                <label>Body</label>
-                <input type="text" class="form-control" placeholder="Name" v-model="emp.name">
+                <label>department</label>
+                <input type="text" class="form-control" placeholder="department" v-model="emp.department">
             </div>
+
+           
         </div>  
       
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -50,38 +56,28 @@
     methods: {
         addEmp(e){
 
-            //  let emp = {
-            //         name: this.task.name,
-            //         email: this.task.email,
-            //         department: this.task.department,
-            //         phone: this.task.phone,
-            //         password: this.task.password,
-            //     }
-
-            // let options = {
-            //   method: 'POST',
-            //   headers: {
-            //     'Content-Type': 'application/json;charset=utf-8',
-            //     'Authorization' : 'Bearer '+this.$cookies.get('user').access_token,
-            //     'Access-Control-Allow-Origin': '*'
-            //   },
-            //   body:emp
-            // }
-         
-            // console.log(options)
-
-            // fetch('https://bounty-board.herokuapp.com/api/tasks'  ,options )
-            // .then(function (response){
-            //   // console.log(response.body)
-            //     this.tasks = (response.body)
-            //             this.$router.push({path: '/employees', query: {alert: 'Employee Added'}});
-
-            //      })
-            // .catch(function (error) {
-            //      console.log(error);
-            //      this.alert = error.body.errors[0].title;
-            //    })
-
+             let emp = {
+                    name: this.emp.name,
+                    email: this.emp.email,
+                    department: this.emp.department,
+                    phone: this.emp.phone,
+                    password: this.emp.password,
+                }
+                let  headers= {
+                    // "Content-type": "application/json",
+                    // "accept": "application/json",
+                    'Authorization' : 'Bearer '+this.$cookies.get('user').access_token ,
+                    }
+               
+        this.$http.post('https://bounty-board.herokuapp.com/api/employees',emp, {headers})
+            .then(function (response){
+                console.log('Success  '+response)
+               this.$router.push({path: '/employees', query: {alert: 'Employee Added'}});
+                 })
+            .catch(function (error) {
+                 console.log('err   '+error.body.errors[0].details);
+                 this.alert = error.body.errors[0].details;
+               })
                 e.preventDefault();
             
         }

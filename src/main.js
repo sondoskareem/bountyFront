@@ -14,9 +14,11 @@ import AddEmployee from './components/Employees/AddEmployee'
 
 import Tasks from './components/Tasks/Tasks'
 import AddTask from './components/Tasks/AddTask'
+import Asset from './components/Tasks/Asset'
+import Requirments from './components/Tasks/Requirments'
 
 import Requests from './components/Requests/Requests'
-import EditeRequest from './components/Requests/EditRequest'
+
 import VueCookies from 'vue-cookies'
 
 
@@ -37,8 +39,9 @@ const router = new VueRouter({
     {path: '/requests', component: Requests},
     {path: '/employees', component: Employees},
     {path: '/addEmployee', component: AddEmployee},
-    {path: '/editeRequest', component: EditeRequest},
     {path: '/addTask', component: AddTask},
+    {path: '/asset', component: Asset},
+    {path: '/requirment', component: Requirments},
   ]
 })
 

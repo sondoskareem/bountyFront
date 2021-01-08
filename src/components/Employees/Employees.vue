@@ -1,11 +1,13 @@
 <template>
+   <div class="row">
+    <Nav />
  <div class="customers container">
+
     <Alert v-if="alert" v-bind:message="alert" />
     <h1 class="page-header">Manage Employees</h1>
-    <!-- <input class="form-control" placeholder="Enter Last Name" v-model="filterInput"> -->
     <br />
     <div class="mb-30">
-            <td><router-link class="btn btn-success mb-30" v-bind:to="'/addTask'+1">Add New Employee</router-link></td>
+            <td><router-link class="btn btn-success mb-30" v-bind:to="'/addEmployee'">Add New Employee</router-link></td>
     </div>
     <table class="table table-striped">
         <thead>
@@ -20,23 +22,17 @@
           </tr>
         </thead>
         <tbody>
-          <td>w </td>
-            <td>w</td>
-            <td>w</td>
-            <td>w</td>
-            <td>w</td>
-            <td><router-link class="btn btn-default" v-bind:to="'/tasks/'+1">View</router-link></td>
-
-          <tr v-for="(task , index) in tasks" :key=index>
-            <td>{{task.id}} </td>
-            <td>{{task.name}}</td>
-            <td>{{task.email}}</td>
-            <td>{{task.phone}}</td>
-            <td>{{task.Department}}</td>
-            <td><router-link class="btn btn-default" v-bind:to="'/tasks/'+task.id">Edit</router-link></td>
+          <tr v-for="(emp , index) in emps" :key=index>
+            <td>{{emp.user.id}} </td>
+            <td>{{emp.user.name}}</td>
+            <td>{{emp.user.phone}}</td>
+            <td>{{emp.user.email}}</td>
+            <td>{{emp.department}}</td>
+            <td><router-link class="btn btn-default" v-bind:to="'/employee/'">Edit</router-link></td>
           </tr>
         </tbody>
     </table>
+  </div>
   </div>
  
 </template>
@@ -46,37 +42,39 @@
     import Alert from '../Alert'
     import Nav from '../Nav'
     export default {
-    name: 'add',
+    name: 'employees',
     data () {
         return {
-        customer: {},
+        emps: [],
         alert:''
         }
     },
     methods: {
-        addCustomer(e){
-         let options = {
-              method: 'Get',
-              headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                'Authorization' : 'Bearer '+this.$cookies.get('user').access_token,
-                'Access-Control-Allow-Origin': '*'
-              },
-            }
-         
-            console.log(options)
-
-            fetch('https://bounty-board.herokuapp.com/api/employees'  ,options )
+         getEmp(){
+           
+          this.$http.get('https://bounty-board.herokuapp.com/api/employees' ,
+          {
+             headers: {
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            // "accept": "application/x-www-form-urlencoded; charset=UTF-8",
+             'Authorization' : 'Bearer '+this.$cookies.get('user').access_token ,
+            },
+          })
             .then(function (response){
-              // console.log(response.body)
-                this.tasks = (response.body)
+              console.log(response.body.items)
+                this.emps = (response.body.items)
                  })
             .catch(function (error) {
-                 console.log(error);
-                 this.alert = error.body.errors[0].title;
+                 console.log(error.body.errors[0].details);
+                 this.alert ( error.body.errors[0].details);
                })
-            e.preventDefault();
         }
+        
+    },
+     created:function() {
+      console.log(this.$cookies.get('user').user.type)
+            this.getEmp()
+        
     },
     components: {
         Alert,
