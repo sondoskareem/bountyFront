@@ -1,4 +1,4 @@
-# vcustomer-mine
+#Bounty Board
 
 > A Vue.js project
 
