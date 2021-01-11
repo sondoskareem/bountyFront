@@ -2,17 +2,23 @@
 
 > A Vue.js project
 
-## Build Setup
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Detailed description](#setup)
 
-``` bash
-# install dependencies
-npm install
+## General info
+This project is simple bounty board system .where the admin can create tasks, and users
+can claim, comment, update progress, and deliver the final product.
+	
+## Technologies
+Project is created with:
+* vue jsas frontend
+* laravel as backend
+	
+## Detailed description
+we have to kind of users
+*Admin
+*Employee
 
-# serve with hot reload at localhost:8080
-npm run dev
 
-# build for production with minification
-npm run build
-```
-
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
