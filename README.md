@@ -25,8 +25,9 @@ Admin can create employee account , add task , approve on emp request.
 Employee can request task and complete the task
 
 ##Linke
-postman link for better viewing routes
-https://documenter.getpostman.com/view/7333237/TVzRGdjk
+postman link for better viewing routes  :-  https://documenter.getpostman.com/view/7333237/TVzRGdjk
+heroku links for backend :-  https://bounty-board.herokuapp.com
+links would be like  https://bounty-board.herokuapp.com/api/login or https://bounty-board.herokuapp.com/api/taks
 
 
 
