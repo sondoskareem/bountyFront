@@ -6,6 +6,7 @@
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Detailed description](#setup)
+* [Links](#setup)
 
 ## General info
 This project is simple bounty board system .where the admin can create tasks, and users
@@ -19,6 +20,15 @@ Project is created with:
 ## Detailed description
 we have to kind of users
 *Admin
-*Employee
+*Employee </br>
+Admin can create employee account , add task , approve on emp request.
+Employee can request task and complete the task
+
+##Linke
+postman link for better viewing routes
+https://documenter.getpostman.com/view/7333237/TVzRGdjk
+
+
+
 
 
