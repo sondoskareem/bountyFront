@@ -13,14 +13,14 @@
     <table class="table table-striped">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Task Number</th>
             <th>Title</th>
             <th>description</th>
             <th>deadline</th>
             <th>budget</th>
             <th>status</th>
             <th>Action</th>
-            <th v-if="user.user.type == 'admin'">Action</th>
+            <th v-if="user.user.type == 'admin'">View</th>
             <th></th>
           </tr>
         </thead>
@@ -33,15 +33,15 @@
             <td>{{task.budget}}</td>
             <td>{{task.status}}</td>
 
-            <td v-if="user.user.type == 'admin'">
-              <router-link class="btn btn-default" v-bind:to="'/asset/'">
-              Add asset
+              <td v-if="user.user.type == 'admin'">
+              <router-link class="btn btn-default" v-bind:to="'/edit/task/'+task.id">
+              Edit
               </router-link>
               </td>
 
               <td v-if="user.user.type == 'admin'">
-              <router-link class="btn btn-default" v-bind:to="'/requirment/'">
-              Add requirment
+              <router-link class="btn btn-default" v-bind:to="'/view/task/'+task.id">
+              View
               </router-link>
               </td>
 
@@ -66,9 +66,9 @@ export default {
     name:'tasks',
     data(){
         return{
-            tasks:[],
+        tasks:[],
         alert:'',
-      user:this.$cookies.get('user').user,
+        user:this.$cookies.get('user').user,
             
         }
     },
@@ -84,10 +84,11 @@ export default {
             .then(function (response){
               // console.log(response.body.items)
                 this.tasks = (response.body.items)
+
                  })
             .catch(function (error) {
-                 console.log('ss'+error.body.errors[0].details);
-                //  this.alert ( error.body.errors[0].details);
+                 console.log('err '+error.body.errors[0].details);
+                 this.alert = error.body.errors[0].details
                })
         },
          assignTaske(id){
@@ -113,6 +114,9 @@ export default {
           
     },
     created:function() {
+       if(this.$route.query.alert){
+        this.alert = this.$route.query.alert;
+      }
       console.log( 'dd ' +this.$cookies.get('user').user.type)
             this.fetchTasks()
         

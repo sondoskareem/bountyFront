@@ -1,5 +1,5 @@
 <template>
-   <div class="row" v-if="user.user.type = 'admin'">
+   <div class="row" v-if="user.user.type = 'employee'" >
     <Nav />
  <div class="customers container">
 
@@ -10,26 +10,22 @@
     <table class="table table-striped">
         <thead>
           <tr>
-            <th>Employee name</th>
-            <th>Employee Department</th>
+            <th>Task Number</th>
             <th>Task Title</th>
             <th>Task Description</th>
             <th>Task Budget</th>
-            <th>Taken</th>
-            <th>Approve</th>
+            <th>Created At</th>
+
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(request , index) in requests" :key=index>
-            <td>{{request.employee.user.name}} </td>
-            <td>{{request.employee.department}}</td>
+            <td>{{request.task.id}}</td>
             <td>{{request.task.title}}</td>
             <td>{{request.task.description}}</td>
             <td>{{request.task.budget}}</td>
-            <td>{{request.approved}}</td>
-
-            <td><button class="btn btn-success" v-on:click="requestApproved(request.id)">Approve</button></td>
+            <td>{{request.created_at}}</td>
           </tr>
         </tbody>
     </table>
@@ -54,35 +50,16 @@
     methods: {
 
          getRequests(){
-          this.$http.get('https://bounty-board.herokuapp.com/api/requestTasks?'+this.$route.query.query,
+          //  console.log(Object.keys(this.$route.query)[0])
+           console.log('https://bounty-board.herokuapp.com/api/requestTasks/by/empID?'+Object.values(this.$route.query)[0])
+          this.$http.get('https://bounty-board.herokuapp.com/api/requestTasks/by/empID?'+Object.values(this.$route.query)[0],
           {headers: {'Authorization' : 'Bearer '+this.$cookies.get('user').access_token ,},})
-            .then(function (response){ this.requests = (response.body.items)})
+            .then(function (response){this.requests = (response.body)})
             .catch(function (error) {this.alert = error.body.errors[0].details})
         },
 
-        requestApproved(id){
-
-           let  headers= {'Authorization' : 'Bearer '+this.$cookies.get('user').access_token  }
-          let data = {approved: 1}
-
-           this.$http.post('https://bounty-board.herokuapp.com/api/requestTasks/'+id,data, {headers})
-            .then(function (response){this.$router.push({path: '/tasks'});})
-            .catch(function (error) {this.alert = error.body.errors[0].details;})
-
-        },
-          
-        
     },
      created:function() {
-       if(this.$cookies.get('user').user.user.type == 'admin') 
-       {
-         this.$shouldRender=true
-         }
-        else 
-        {
-          this.$shouldRender=false
-        }
-          
         this.getRequests()
         
     },

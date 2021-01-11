@@ -51,7 +51,7 @@
         return {
         task: {},
         alert:'',
-      user:this.$cookies.get('user').user,
+        user:this.$cookies.get('user').user,
 
         }
     },

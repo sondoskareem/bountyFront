@@ -28,7 +28,7 @@
             <td>{{emp.user.phone}}</td>
             <td>{{emp.user.email}}</td>
             <td>{{emp.department}}</td>
-            <td><router-link class="btn btn-default" v-bind:to="'/employee/'">Edit</router-link></td>
+            <td><router-link class="btn btn-default" v-bind:to="'/employees'">Edit</router-link></td>
           </tr>
         </tbody>
     </table>
@@ -66,12 +66,20 @@
                  })
             .catch(function (error) {
                  console.log(error.body.errors[0].details);
-                 this.alert ( error.body.errors[0].details);
+                 this.alert = error.body.errors[0].details
+
+                 if(error.body.errors[0].title == "Unauthenticated"){
+                    this.$router.push({path: '/', query: {alert: 'Unauthenticated Login again'}});
+                    }
+
                })
         }
         
     },
      created:function() {
+        if(this.$route.query.alert){
+        this.alert = this.$route.query.alert;
+      }
       console.log(this.$cookies.get('user').user.type)
             this.getEmp()
         

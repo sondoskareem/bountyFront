@@ -14,10 +14,14 @@ import AddEmployee from './components/Employees/AddEmployee'
 
 import Tasks from './components/Tasks/Tasks'
 import AddTask from './components/Tasks/AddTask'
+import Edit from './components/Tasks/Edit'
 import Asset from './components/Tasks/Asset'
 import Requirments from './components/Tasks/Requirments'
+import TaskDetails from './components/Tasks/TaskDetails'
 
 import Requests from './components/Requests/Requests'
+import EmpRequests from './components/Requests/EmpRequests'
+import EmpTasks from './components/Requests/EmpTasks'
 
 import VueCookies from 'vue-cookies'
 
@@ -36,12 +40,16 @@ const router = new VueRouter({
   routes: [
     {path:'/', component: Login},
     {path: '/tasks', component: Tasks},
-    {path: '/requests', component: Requests},
+    {path: '/requests',  name: 'requests',props: true ,component: Requests},
+    {path: '/employee/requests',  name: 'employee/requests',props: true ,component: EmpRequests},
+    {path: '/employee/tasks',  name: 'employee/tasks',props: true ,component: EmpTasks},
     {path: '/employees', component: Employees},
     {path: '/addEmployee', component: AddEmployee},
     {path: '/addTask', component: AddTask},
-    {path: '/asset', component: Asset},
-    {path: '/requirment', component: Requirments},
+    {path: '/edit/task/:id', component: Edit},
+    {path: '/asset/task/:id', component: Asset},
+    {path: '/requirment/task/:id', component: Requirments},
+    {path: '/view/task/:id', component: TaskDetails},
   ]
 })
 
