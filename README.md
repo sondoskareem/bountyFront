@@ -1,18 +1,35 @@
-# vcustomer-mine
+#Bounty Board
 
 > A Vue.js project
 
-## Build Setup
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Detailed description](#setup)
+* [Links](#setup)
 
-``` bash
-# install dependencies
-npm install
+## General info
+This project is simple bounty board system .where the admin can create tasks, and users
+can claim, comment, update progress, and deliver the final product.
+	
+## Technologies
+Project is created with:
+* vue jsas frontend
+* laravel as backend
+	
+## Detailed description
+we have to kind of users
+*Admin
+*Employee </br>
+Admin can create employee account , add task , approve on emp request.
+Employee can request task and complete the task
 
-# serve with hot reload at localhost:8080
-npm run dev
+## Links
+postman link for better viewing routes  :-  https://documenter.getpostman.com/view/7333237/TVzRGdjk
+heroku links for backend :-  https://bounty-board.herokuapp.com
+links would be like  https://bounty-board.herokuapp.com/api/login or https://bounty-board.herokuapp.com/api/taks
 
-# build for production with minification
-npm run build
-```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+
+
