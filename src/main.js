@@ -53,17 +53,18 @@ const router = new VueRouter({
   ]
 })
 
-// new Vue({
-//   el: '#app',
-//   render: h => h(App)
-// })
-
 new Vue({
   router,
-  template: 
-  `<div id="app">
-      <router-view></router-view>
-    </div>
-  `
-}).$mount('#app')
+  el: '#app',
+  render: h => h(App)
+})
+
+// new Vue({
+//   router,
+//   template: 
+//   `<div id="app">
+//       <router-view></router-view>
+//     </div>
+//   `
+// }).$mount('#app')
 
