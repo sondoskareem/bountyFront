@@ -7,7 +7,7 @@ app.use(express.static(__dirname + "/dist/"));
 
 //a fucking import step in SPA when you reload the page
 app.get(/.*/, (req, res) => {
-  res.sendfile(__dirname + "/dist/index.html");
+  res.sendfile(__dirname + "/dist/");
 });
 
 //listen for the port
